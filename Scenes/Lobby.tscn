@@ -1,0 +1,105 @@
+[gd_scene load_steps=8 format=3 uid="uid://bqg0oogho71s6"]
+
+[ext_resource type="AudioStream" uid="uid://bwv1bx0bpjnhy" path="res://Sounds/Music/stone in focus 19.mp3" id="1_bpe3w"]
+[ext_resource type="Script" uid="uid://dncflymmv5xar" path="res://Scripts/Lobby.cs" id="1_nsj2m"]
+[ext_resource type="Texture2D" uid="uid://bx3e2ldm44of0" path="res://Assets/Menu/unburied1.png" id="2_lolwk"]
+[ext_resource type="FontFile" uid="uid://cug0aduko6bdr" path="res://Fonts/Celtic.ttf" id="3_wgubu"]
+[ext_resource type="Script" uid="uid://dm3gn364xj0r8" path="res://Scripts/Noise2D.cs" id="5_xy1bw"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nsj2m"]
+noise_type = 4
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xy1bw"]
+noise = SubResource("FastNoiseLite_nsj2m")
+
+[node name="Control" type="Control" node_paths=PackedStringArray("NameEdit", "ProfessionSelect", "ReadyButton", "TimerLabel", "PlayerListContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nsj2m")
+NameEdit = NodePath("CanvasLayer/NameEdit")
+ProfessionSelect = NodePath("CanvasLayer/ProfessionSelect")
+ReadyButton = NodePath("CanvasLayer/ReadyButton")
+TimerLabel = NodePath("CanvasLayer/TimerLabel")
+PlayerListContainer = NodePath("CanvasLayer/PlayerListContainer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_bpe3w")
+autoplay = true
+
+[node name="Unburied1" type="Sprite2D" parent="."]
+position = Vector2(581.375, 323.25)
+scale = Vector2(0.75472, 0.634277)
+texture = ExtResource("2_lolwk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerListContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 112.0
+offset_top = 320.0
+offset_right = 407.0
+offset_bottom = 602.0
+
+[node name="ReadyButton" type="Button" parent="CanvasLayer"]
+offset_left = 954.0
+offset_top = 575.0
+offset_right = 1104.0
+offset_bottom = 620.0
+text = "Ready"
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 374.0
+offset_top = 149.0
+offset_right = 865.0
+offset_bottom = 225.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_wgubu")
+theme_override_font_sizes/font_size = 128
+text = "UNBURIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="CanvasLayer/Label"]
+position = Vector2(253, 5)
+amount = 20
+emission_shape = 3
+emission_rect_extents = Vector2(200, 1)
+spread = 180.0
+gravity = Vector2(50, 50)
+color = Color(0.805802, 0.804861, 1.92523e-06, 1)
+
+[node name="NameEdit" type="LineEdit" parent="CanvasLayer"]
+offset_left = 109.0
+offset_top = 235.0
+offset_right = 337.0
+offset_bottom = 266.0
+placeholder_text = "Name"
+
+[node name="ProfessionSelect" type="OptionButton" parent="CanvasLayer"]
+offset_left = 109.0
+offset_top = 270.0
+offset_right = 309.0
+offset_bottom = 306.0
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer"]
+offset_left = 769.0
+offset_top = 615.0
+offset_right = 825.0
+offset_bottom = 638.0
+text = "Test"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.0588235)
+offset_right = 1163.0
+offset_bottom = 661.0
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_xy1bw")
+script = ExtResource("5_xy1bw")
+
+[connection signal="pressed" from="CanvasLayer/ReadyButton" to="." method="OnReadyPressed"]

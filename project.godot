@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="unburied"
-config/features=PackedStringArray("4.4", "Mobile")
+run/main_scene="uid://bqg0oogho71s6"
+config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+NetworkManager="*res://Scripts/NetworkManager.cs"
 
 [dotnet]
 
