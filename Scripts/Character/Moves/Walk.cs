@@ -26,15 +26,15 @@ public partial class Walk : Move
     private Vector3 CalculateVelocity(InputPackage input, float delta)
     {
         Vector3 velocity = Player.Velocity;
+        Vector2 inputDir = input.InputDirection;
 
-        // Movimento isométrico (45°)
-        float angle = Mathf.Pi / 4;
-        Vector2 isoInput = new Vector2(
-            input.InputDirection.X * Mathf.Cos(angle) - input.InputDirection.Y * Mathf.Sin(angle),
-            input.InputDirection.X * Mathf.Sin(angle) + input.InputDirection.Y * Mathf.Cos(angle)
+        float angle = Mathf.DegToRad(45);
+        Vector2 rotatedInput = new Vector2(
+            inputDir.X * Mathf.Cos(angle) - inputDir.Y * Mathf.Sin(angle),
+            inputDir.X * Mathf.Sin(angle) + inputDir.Y * Mathf.Cos(angle)
         );
 
-        Vector3 direction = (Visuals.Transform.Basis * new Vector3(isoInput.X, 0, isoInput.Y)).Normalized();
+        Vector3 direction = new Vector3(rotatedInput.X, 0, rotatedInput.Y).Normalized();
 
         if (Player.IsOnFloor())
         {
@@ -43,7 +43,6 @@ public partial class Walk : Move
                 float moveSpeed = IsRunning ? Speed * 2.5f : Speed;
                 velocity.X = direction.X * moveSpeed;
                 velocity.Z = direction.Z * moveSpeed;
-                if (IsRunning) AnimPlayer.Play("Sprint");
                 AnimPlayer.Play("Walk");
             }
             else
@@ -51,14 +50,14 @@ public partial class Walk : Move
                 velocity.X = Mathf.MoveToward(Player.Velocity.X, 0, Speed);
                 velocity.Z = Mathf.MoveToward(Player.Velocity.Z, 0, Speed);
             }
-            velocity.Y = -0.1f; // Mantém o personagem no chão
+            velocity.Y = -0.1f;
         }
         else
         {
-            // Aplica gravidade se estiver no ar
             velocity.Y -= Gravity * delta;
         }
 
+        Visuals.LookAt(-direction + Player.GlobalTransform.Origin, Vector3.Up);
         return velocity;
     }
 }
