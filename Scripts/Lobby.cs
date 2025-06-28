@@ -33,7 +33,7 @@ public partial class Lobby : Control
     public override void _Ready()
     {
         ReadyButton.Pressed += OnReadyPressed;
-        NameEdit.TextChanged += OnNameEditChanged; // Conecta o sinal TextChanged
+        NameEdit.TextChanged += OnNameEditChanged;
         ProfessionSelect.AddItem("Inquisidor");
         ProfessionSelect.AddItem("Mercante");
         ProfessionSelect.AddItem("Barão");
@@ -122,7 +122,7 @@ public partial class Lobby : Control
 
     private void OnNameEditChanged(string newText)
     {
-        UpdatePlayerList(); // Atualiza a lista de jogadores sempre que o nome mudar
+        UpdatePlayerList();
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
