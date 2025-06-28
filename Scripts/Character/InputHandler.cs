@@ -18,6 +18,7 @@ public partial class InputHandler : Node
         {
             input.Actions.Append("crouch");
         }
+        
         else if (Input.IsActionPressed("sprint") && input.InputDirection != Vector2.Zero)
         {
             input.Actions.Append("sprint");
