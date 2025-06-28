@@ -12,7 +12,7 @@ public partial class Sprint : Move
     public override string CheckRelevance(InputPackage input)
     {
         if (Input.IsActionPressed("crouch"))
-            return "crouch";
+            return "crouch_fwd";
         
         if (!Input.IsActionPressed("sprint") || input.InputDirection == Vector2.Zero)
         {

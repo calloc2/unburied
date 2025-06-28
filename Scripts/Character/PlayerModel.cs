@@ -20,6 +20,7 @@ public partial class PlayerModel : Node
             { "sprint", (Move)GetNode("Sprint") },
             { "crouch", (Move)GetNode("Crouch") },
             { "crouch_fwd", (Move)GetNode("CrouchFwd") },
+            { "dance", (Move)GetNode("Dance") },
         };
 
         _currentMove = Moves["idle"];

@@ -13,12 +13,15 @@ public partial class InputHandler : Node
         */
         
         input.InputDirection = Input.GetVector("move_forward", "move_backward", "move_right", "move_left");
-        
+
         if (Input.IsActionPressed("crouch"))
         {
             input.Actions.Append("crouch");
         }
-        
+        else if (Input.IsActionPressed("crouch") && input.InputDirection != Vector2.Zero)
+        {
+            input.Actions.Append("crouch_fwd");
+        }
         else if (Input.IsActionPressed("sprint") && input.InputDirection != Vector2.Zero)
         {
             input.Actions.Append("sprint");
@@ -27,9 +30,13 @@ public partial class InputHandler : Node
         {
             input.Actions.Append("walk");
         }
+        else if (Input.IsActionPressed("dance"))
+        {
+            input.Actions.Append("dance");
+        }
 
         if (input.Actions.Count == 0)
-            input.Actions.Append("idle");
+                input.Actions.Append("idle");
 
         return input;
     }

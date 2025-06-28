@@ -13,7 +13,6 @@ public partial class Crouch : Move
     {
         if (Input.IsActionPressed("crouch") && input.InputDirection != Vector2.Zero)
             return "crouch_fwd";
-        
         if (input.InputDirection != Vector2.Zero)
         {
             if (Input.IsActionPressed("sprint"))

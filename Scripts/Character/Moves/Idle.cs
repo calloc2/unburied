@@ -5,6 +5,9 @@ public partial class Idle : Move
 {
     public override string CheckRelevance(InputPackage input)
     {
+        if (Input.IsActionPressed("dance"))
+            return "dance";
+        
         if (Input.IsActionPressed("crouch"))
             return "crouch";
         
