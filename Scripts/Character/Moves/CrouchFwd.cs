@@ -8,16 +8,15 @@ public partial class CrouchFwd : Move
 
     private Node3D Visuals => Player.GetNode<Node3D>("Rig");
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
-    private bool _isCrouchAnimationPlaying = false;
-    
+
     public override string CheckRelevance(InputPackage input)
     {
         if (Input.IsActionPressed("crouch") && input.InputDirection == Vector2.Zero)
             return "crouch";
-        
+
         if (input.InputDirection == Vector2.Zero)
             return "idle";
-            
+
         return "crouch_fwd";
     }
 
@@ -46,19 +45,11 @@ public partial class CrouchFwd : Move
             {
                 velocity.X = direction.X * CrouchSpeed;
                 velocity.Z = direction.Z * CrouchSpeed;
-
-                // Only play walk animation if not already playing
-                if (!_isCrouchAnimationPlaying)
-                {
-                    AnimPlayer.Play("Crouch_Fwd");
-                    _isCrouchAnimationPlaying = true;
-                }
             }
             else
             {
                 velocity.X = Mathf.MoveToward(Player.Velocity.X, 0, CrouchSpeed);
                 velocity.Z = Mathf.MoveToward(Player.Velocity.Z, 0, CrouchSpeed);
-                _isCrouchAnimationPlaying = false;
             }
             velocity.Y = -0.1f;
         }
@@ -73,7 +64,12 @@ public partial class CrouchFwd : Move
 
     public override void OnEnterState()
     {
-        GD.Print("Entering Crouch Forward State");
-        _isCrouchAnimationPlaying = false;
+        AnimPlayer.Play("Crouch_Fwd");
+    }
+    
+    public override void OnExitState()
+    {
+        // Stop sprint animation when exiting
+        base.OnExitState();
     }
 }
