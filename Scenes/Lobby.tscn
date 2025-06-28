@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqg0oogho71s6"]
+[gd_scene load_steps=9 format=3 uid="uid://bqg0oogho71s6"]
 
 [ext_resource type="AudioStream" uid="uid://bwv1bx0bpjnhy" path="res://Sounds/Music/stone in focus 19.mp3" id="1_bpe3w"]
 [ext_resource type="Script" uid="uid://dncflymmv5xar" path="res://Scripts/Lobby.cs" id="1_nsj2m"]
 [ext_resource type="Texture2D" uid="uid://bx3e2ldm44of0" path="res://Assets/Menu/unburied1.png" id="2_lolwk"]
 [ext_resource type="FontFile" uid="uid://cug0aduko6bdr" path="res://Fonts/Celtic.ttf" id="3_wgubu"]
+[ext_resource type="Script" uid="uid://5g106aupvkyr" path="res://Scripts/MultiplayerChat.cs" id="5_vmftg"]
 [ext_resource type="Script" uid="uid://dm3gn364xj0r8" path="res://Scripts/Noise2D.cs" id="5_xy1bw"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nsj2m"]
@@ -93,9 +94,45 @@ offset_right = 825.0
 offset_bottom = 638.0
 text = "Test"
 
+[node name="Chat" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_right = 0.035
+anchor_bottom = 0.062
+offset_left = 817.0
+offset_top = 484.0
+offset_right = 816.68
+offset_bottom = 483.824
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("5_vmftg")
+lobbyPath = NodePath("../..")
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Chat"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -1.9
+anchor_right = 3.4
+anchor_bottom = -0.4
+offset_top = -177.0
+offset_right = 185.0
+offset_bottom = 8.0
+scroll_smooth = true
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/Chat"]
+layout_mode = 0
+offset_right = 243.0
+offset_bottom = 43.0
+
+[node name="Message" type="LineEdit" parent="CanvasLayer/Chat/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+placeholder_text = "Message"
+
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.0588235)
+layout_mode = 0
 offset_right = 1163.0
 offset_bottom = 661.0
 mouse_filter = 2

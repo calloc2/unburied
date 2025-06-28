@@ -13,15 +13,15 @@ public partial class Lobby : Control
     private float startTimer = 30.0f;
     private float timer = 0.0f;
     private bool countdownStarted = false;
-    
+
     private Dictionary<int, PlayerInfo> connectedPlayers = new Dictionary<int, PlayerInfo>();
-    
+
     public struct PlayerInfo
     {
         public string Name;
         public int ProfessionIndex;
         public bool IsReady;
-        
+
         public PlayerInfo(string name, int professionIndex, bool isReady)
         {
             Name = name;
@@ -33,13 +33,14 @@ public partial class Lobby : Control
     public override void _Ready()
     {
         ReadyButton.Pressed += OnReadyPressed;
+        NameEdit.TextChanged += OnNameEditChanged; // Conecta o sinal TextChanged
         ProfessionSelect.AddItem("Inquisidor");
         ProfessionSelect.AddItem("Mercante");
         ProfessionSelect.AddItem("Barão");
-        
+
         Multiplayer.PeerConnected += OnPeerConnected;
         Multiplayer.PeerDisconnected += OnPeerDisconnected;
-        
+
         UpdatePlayerList();
     }
 
@@ -61,51 +62,51 @@ public partial class Lobby : Control
         GD.Print($"Player {id} connected");
         UpdatePlayerList();
     }
-    
+
     private void OnPeerDisconnected(long id)
     {
         GD.Print($"Player {id} disconnected");
         connectedPlayers.Remove((int)id);
         UpdatePlayerList();
     }
-    
+
     private void UpdatePlayerList()
     {
         if (PlayerListContainer == null)
             return;
-            
+
         foreach (Node child in PlayerListContainer.GetChildren())
         {
             child.QueueFree();
         }
-        
+
         foreach (var kvp in connectedPlayers)
         {
             var playerId = kvp.Key;
             var playerInfo = kvp.Value;
-            
+
             var playerLabel = new Label();
             string professionName = GetProfessionName(playerInfo.ProfessionIndex);
             string readyStatus = playerInfo.IsReady ? "✓" : "⏳";
             playerLabel.Text = $"{readyStatus} {playerInfo.Name} ({professionName})";
-            
+
             PlayerListContainer.AddChild(playerLabel);
         }
-        
+
         var localLabel = new Label();
         string localProfession = GetProfessionName(ProfessionSelect.Selected);
         string localReadyStatus = isReady ? "✓" : "⏳";
-        string playerName = string.IsNullOrEmpty(NameEdit.Text) ? "Jogador Local" : NameEdit.Text;
+        string playerName = GetLocalPlayerName();
         localLabel.Text = $"{localReadyStatus} {playerName} ({localProfession}) [Você]";
         PlayerListContainer.AddChild(localLabel);
     }
-    
+
     private string GetProfessionName(int index)
     {
         return index switch
         {
             0 => "Inquisidor",
-            1 => "Mercante", 
+            1 => "Mercante",
             2 => "Barão",
             _ => "Desconhecida"
         };
@@ -116,21 +117,31 @@ public partial class Lobby : Control
         isReady = true;
         ReadyButton.Disabled = true;
         UpdatePlayerList();
-        Rpc(nameof(RemoteSetPlayerReady), NameEdit.Text, ProfessionSelect.Selected);
+        Rpc(nameof(RemoteSetPlayerReady), GetLocalPlayerName(), ProfessionSelect.Selected);
+    }
+
+    private void OnNameEditChanged(string newText)
+    {
+        UpdatePlayerList(); // Atualiza a lista de jogadores sempre que o nome mudar
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
     public void RemoteSetPlayerReady(string playerName, int professionIdx)
     {
         int senderId = Multiplayer.GetRemoteSenderId();
-        
+
         connectedPlayers[senderId] = new PlayerInfo(playerName, professionIdx, true);
         UpdatePlayerList();
-        
+
         if (!countdownStarted)
         {
             countdownStarted = true;
             timer = startTimer;
-        } 
+        }
+    }
+
+    public string GetLocalPlayerName()
+    {
+        return string.IsNullOrEmpty(NameEdit.Text) ? "Jogador Local" : NameEdit.Text;
     }
 }
