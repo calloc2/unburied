@@ -1,35 +1,38 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class Walk : Move
+public partial class CrouchFwd : Move
 {
-    [Export] public float Speed = 3.3f;
+    [Export] public float CrouchSpeed = 1.5f;
     public static float Gravity => (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
     private Node3D Visuals => Player.GetNode<Node3D>("Rig");
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
-    private bool _isWalkAnimationPlaying = false;
 
     public override string CheckRelevance(InputPackage input)
     {
-        if (Input.IsActionPressed("crouch"))
-            return "crouch";
+        if (!Input.IsActionPressed("crouch"))
+        {
+            if (input.InputDirection == Vector2.Zero)
+                return "idle";
+            else if (Input.IsActionPressed("sprint"))
+                return "sprint";
+            else
+                return "walk";
+        }
         
-        if (Input.IsActionPressed("sprint") && input.InputDirection != Vector2.Zero)
-            return "sprint";
-            
         if (input.InputDirection == Vector2.Zero)
-            return "idle";
-            
-        return "walk";
+            return "crouch_idle";
+        
+        return "crouch_fwd";
     }
 
-	public override void Update(double delta, InputPackage input)
-	{
-		Player.Velocity = CalculateVelocity(input, (float)delta);
-		Player.MoveAndSlide();
-
+    public override void Update(double delta, InputPackage input)
+    {
+        Player.Velocity = CalculateVelocity(input, (float)delta);
+        Player.MoveAndSlide();
     }
+
     private Vector3 CalculateVelocity(InputPackage input, float delta)
     {
         Vector3 velocity = Player.Velocity;
@@ -47,21 +50,13 @@ public partial class Walk : Move
         {
             if (direction != Vector3.Zero)
             {
-                velocity.X = direction.X * Speed;
-                velocity.Z = direction.Z * Speed;
-                
-                // Only play walk animation if not already playing
-                if (!_isWalkAnimationPlaying)
-                {
-                    AnimPlayer.Play("Walk");
-                    _isWalkAnimationPlaying = true;
-                }
+                velocity.X = direction.X * CrouchSpeed;
+                velocity.Z = direction.Z * CrouchSpeed;
             }
             else
             {
-                velocity.X = Mathf.MoveToward(Player.Velocity.X, 0, Speed);
-                velocity.Z = Mathf.MoveToward(Player.Velocity.Z, 0, Speed);
-                _isWalkAnimationPlaying = false;
+                velocity.X = Mathf.MoveToward(Player.Velocity.X, 0, CrouchSpeed);
+                velocity.Z = Mathf.MoveToward(Player.Velocity.Z, 0, CrouchSpeed);
             }
             velocity.Y = -0.1f;
         }
@@ -76,7 +71,6 @@ public partial class Walk : Move
 
     public override void OnEnterState()
     {
-        // Reset animation state when entering walk mode
-        _isWalkAnimationPlaying = false;
+        AnimPlayer.Play("Crouch_Fwd");
     }
 }

@@ -9,6 +9,8 @@ public abstract partial class Move : Node
     {
         { "idle", 1 },
         { "walk", 2 },
+        { "sprint", 3 },
+        { "crouch", 4 },
         { "jump", 10 }
     };
 

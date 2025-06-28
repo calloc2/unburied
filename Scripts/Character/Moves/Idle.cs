@@ -5,7 +5,17 @@ public partial class Idle : Move
 {
     public override string CheckRelevance(InputPackage input)
     {
-        if (input.InputDirection != Vector2.Zero) return "walk";
+        if (Input.IsActionPressed("crouch"))
+            return "crouch";
+        
+        if (input.InputDirection != Vector2.Zero)
+        {
+            if (Input.IsActionPressed("sprint"))
+                return "sprint";
+            else
+                return "walk";
+        }
+        
         return "idle";
     }
 

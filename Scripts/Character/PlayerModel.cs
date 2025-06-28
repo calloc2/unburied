@@ -16,7 +16,9 @@ public partial class PlayerModel : Node
         Moves = new Dictionary<string, Move>
         {
             { "idle", (Move)GetNode("Idle") },
-            { "walk", (Move)GetNode("Walk") }
+            { "walk", (Move)GetNode("Walk") },
+            { "sprint", (Move)GetNode("Sprint") },
+            { "crouch", (Move)GetNode("Crouch") }
         };
 
         _currentMove = Moves["idle"];
