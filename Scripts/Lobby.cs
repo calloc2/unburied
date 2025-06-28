@@ -80,6 +80,9 @@ public partial class Lobby : Control
             child.QueueFree();
         }
 
+        int localPeerId = Multiplayer.GetUniqueId();
+        string localPlayerName = GetLocalPlayerName();
+
         foreach (var kvp in connectedPlayers)
         {
             var playerId = kvp.Key;
@@ -88,17 +91,21 @@ public partial class Lobby : Control
             var playerLabel = new Label();
             string professionName = GetProfessionName(playerInfo.ProfessionIndex);
             string readyStatus = playerInfo.IsReady ? "✓" : "⏳";
-            playerLabel.Text = $"{readyStatus} {playerInfo.Name} ({professionName})";
+            string youTag = (playerId == localPeerId) ? " [Você]" : "";
+            playerLabel.Text = $"{readyStatus} {playerInfo.Name} ({professionName}){youTag}";
 
             PlayerListContainer.AddChild(playerLabel);
         }
 
-        var localLabel = new Label();
-        string localProfession = GetProfessionName(ProfessionSelect.Selected);
-        string localReadyStatus = isReady ? "✓" : "⏳";
-        string playerName = GetLocalPlayerName();
-        localLabel.Text = $"{localReadyStatus} {playerName} ({localProfession}) [Você]";
-        PlayerListContainer.AddChild(localLabel);
+        // Add local player if not in connectedPlayers (e.g., single player or host)
+        if (!connectedPlayers.ContainsKey(localPeerId))
+        {
+            var localLabel = new Label();
+            string localProfession = GetProfessionName(ProfessionSelect.Selected);
+            string localReadyStatus = isReady ? "✓" : "⏳";
+            localLabel.Text = $"{localReadyStatus} {localPlayerName} ({localProfession}) [Você]";
+            PlayerListContainer.AddChild(localLabel);
+        }
     }
 
     private string GetProfessionName(int index)

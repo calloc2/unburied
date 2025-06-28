@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqg0oogho71s6"]
+[gd_scene load_steps=15 format=3 uid="uid://bqg0oogho71s6"]
 
 [ext_resource type="AudioStream" uid="uid://bwv1bx0bpjnhy" path="res://Sounds/Music/stone in focus 19.mp3" id="1_bpe3w"]
 [ext_resource type="Script" uid="uid://dncflymmv5xar" path="res://Scripts/Lobby.cs" id="1_nsj2m"]
@@ -6,6 +6,15 @@
 [ext_resource type="FontFile" uid="uid://cug0aduko6bdr" path="res://Fonts/Celtic.ttf" id="3_wgubu"]
 [ext_resource type="Script" uid="uid://5g106aupvkyr" path="res://Scripts/MultiplayerChat.cs" id="5_vmftg"]
 [ext_resource type="Script" uid="uid://dm3gn364xj0r8" path="res://Scripts/Noise2D.cs" id="5_xy1bw"]
+[ext_resource type="FontFile" uid="uid://cg36dx3smbu2m" path="res://Fonts/Plain Germanica.ttf" id="6_gqa7q"]
+[ext_resource type="Texture2D" uid="uid://dn2icrsyto33a" path="res://Assets/chat-bg(1).png" id="7_yg8gm"]
+[ext_resource type="Texture2D" uid="uid://cvul1opiax756" path="res://Assets/SkullTopper(2).png" id="8_sup6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yg8gm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sup6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r753w"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nsj2m"]
 noise_type = 4
@@ -108,14 +117,22 @@ script = ExtResource("5_vmftg")
 lobbyPath = NodePath("../..")
 
 [node name="TextEdit" type="TextEdit" parent="CanvasLayer/Chat"]
+z_index = 1
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_top = -1.9
-anchor_right = 3.4
-anchor_bottom = -0.4
-offset_top = -177.0
-offset_right = 185.0
-offset_bottom = 8.0
+anchor_left = 0.325
+anchor_top = -5.925
+anchor_right = 7.775
+anchor_bottom = -0.45
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 1)
+theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_gqa7q")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yg8gm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sup6t")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_r753w")
+editable = false
 scroll_smooth = true
 metadata/_edit_use_anchors_ = true
 
@@ -128,6 +145,25 @@ offset_bottom = 43.0
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 placeholder_text = "Message"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Chat"]
+z_index = -1
+layout_mode = 0
+offset_left = 27.0
+offset_top = -370.0
+offset_right = 296.0
+offset_bottom = -101.0
+texture = ExtResource("8_sup6t")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Chat"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = -250.0
+offset_right = 323.0
+offset_bottom = -5.0
+texture = ExtResource("7_yg8gm")
+expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
