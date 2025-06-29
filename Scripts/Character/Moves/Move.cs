@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public abstract partial class Move : Node
 {
     public CharacterController Player;
+    public Node3D Visuals => Player.GetNode<Node3D>("Rig");
 
     public static Dictionary<string, int> movesPriorities = new Dictionary<string, int>
     {
@@ -28,7 +29,8 @@ public abstract partial class Move : Node
 
     public virtual void Update(double delta, InputPackage input)
     {
-        //
+        // Default implementation does nothing
+        // Derived classes should override this method to implement specific behavior
     }
 
     public virtual void OnEnterState()

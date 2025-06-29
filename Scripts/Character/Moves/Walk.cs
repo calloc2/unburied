@@ -6,7 +6,6 @@ public partial class Walk : Move
     [Export] public float Speed = 3.3f;
     public static float Gravity => (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
-    private Node3D Visuals => Player.GetNode<Node3D>("Rig");
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
     private bool _isWalkAnimationPlaying = false;
 
@@ -14,22 +13,22 @@ public partial class Walk : Move
     {
         if (Input.IsActionPressed("crouch"))
             return "crouch";
-        
+
         if (Input.IsActionPressed("sprint") && input.InputDirection != Vector2.Zero)
             return "sprint";
-            
+
         if (input.InputDirection == Vector2.Zero)
             return "idle";
-            
+
         return "walk";
     }
 
-	public override void Update(double delta, InputPackage input)
-	{
-		Player.Velocity = CalculateVelocity(input, (float)delta);
-		Player.MoveAndSlide();
-
+    public override void Update(double delta, InputPackage input)
+    {
+        Player.Velocity = CalculateVelocity(input, (float)delta);
+        Player.MoveAndSlide();
     }
+
     private Vector3 CalculateVelocity(InputPackage input, float delta)
     {
         Vector3 velocity = Player.Velocity;
@@ -49,7 +48,7 @@ public partial class Walk : Move
             {
                 velocity.X = direction.X * Speed;
                 velocity.Z = direction.Z * Speed;
-                
+
                 // Only play walk animation if not already playing
                 if (!_isWalkAnimationPlaying)
                 {
@@ -69,7 +68,7 @@ public partial class Walk : Move
         {
             velocity.Y -= Gravity * delta;
         }
-
+        
         Visuals.LookAt(-direction + Player.GlobalTransform.Origin, Vector3.Up);
         return velocity;
     }
@@ -79,4 +78,6 @@ public partial class Walk : Move
         // Reset animation state when entering walk mode
         _isWalkAnimationPlaying = false;
     }
+
+
 }

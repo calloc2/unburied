@@ -6,7 +6,6 @@ public partial class CrouchFwd : Move
     [Export] public float CrouchSpeed = 1.5f;
     public static float Gravity => (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
-    private Node3D Visuals => Player.GetNode<Node3D>("Rig");
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
 
     public override string CheckRelevance(InputPackage input)

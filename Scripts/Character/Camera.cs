@@ -1,14 +1,13 @@
 using Godot;
-using System;
 
 public partial class Camera : Camera3D
 {
 	// Proprerties
+	
 	private const float MIN_ZOOM = 5.0f;
 	private const float MAX_ZOOM = 15.0f;
 
 	[Export] public float ZoomSpeed = 0.5f;
-
 
 	public override void _Input(InputEvent @event)
 	{
