@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public partial class Walk : Move
 {
     [Export] public float Speed = 3.3f;
-    public static float Gravity => (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
     private bool _isWalkAnimationPlaying = false;
@@ -25,7 +24,9 @@ public partial class Walk : Move
 
     public override void Update(double delta, InputPackage input)
     {
+        base.Update(delta, input);
         Player.Velocity = CalculateVelocity(input, (float)delta);
+        
         Player.MoveAndSlide();
     }
 
@@ -64,10 +65,6 @@ public partial class Walk : Move
             }
             velocity.Y = -0.1f;
         }
-        else
-        {
-            velocity.Y -= Gravity * delta;
-        }
         
         Visuals.LookAt(-direction + Player.GlobalTransform.Origin, Vector3.Up);
         return velocity;
@@ -79,5 +76,8 @@ public partial class Walk : Move
         _isWalkAnimationPlaying = false;
     }
 
-
+    public override void OnExitState()
+    {
+        Player.Velocity = Vector3.Zero;
+    }
 }

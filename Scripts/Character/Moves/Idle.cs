@@ -24,12 +24,13 @@ public partial class Idle : Move
 
     public override void Update(double delta, InputPackage input)
     {
+        base.Update(delta, input);
         LookAtDirection();
+        Player.MoveAndSlide();
     }
 
     public override void OnEnterState()
     {
-        Player.Velocity = Vector3.Zero;
         Player.GetNode<AnimationPlayer>("Rig/AnimationPlayer").Play("Idle");
     }
 
