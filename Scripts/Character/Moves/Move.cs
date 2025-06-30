@@ -31,6 +31,11 @@ public abstract partial class Move : Node
     {
         // Default implementation does nothing
         // Derived classes should override this method to implement specific behavior
+        if (!Player.IsOnFloor())
+        {
+            float gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
+            Player.Velocity = new Vector3(0, Player.Velocity.Y - gravity * (float)delta, 0);
+        }
     }
 
     public virtual void OnEnterState()

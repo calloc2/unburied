@@ -17,6 +17,9 @@ public partial class Dance : Move
 
     public override void Update(double delta, InputPackage input)
     {
+        base.Update(delta, input);
+        Player.Velocity = new Vector3(0, Player.Velocity.Y, 0);
+        Player.MoveAndSlide();
         LookAtDirection();
     }
 

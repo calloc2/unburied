@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public partial class Sprint : Move
 {
     [Export] public float SprintSpeed = 8.0f;
-    public static float Gravity => (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
     private AnimationPlayer AnimPlayer => Visuals.GetNode<AnimationPlayer>("AnimationPlayer");
 
@@ -23,6 +22,7 @@ public partial class Sprint : Move
 
     public override void Update(double delta, InputPackage input)
     {
+        base.Update(delta, input);
         Player.Velocity = CalculateVelocity(input, (float)delta);
         Player.MoveAndSlide();
     }
@@ -53,10 +53,6 @@ public partial class Sprint : Move
                 velocity.Z = Mathf.MoveToward(Player.Velocity.Z, 0, SprintSpeed);
             }
             velocity.Y = -0.1f;
-        }
-        else
-        {
-            velocity.Y -= Gravity * delta;
         }
 
         Visuals.LookAt(-direction + Player.GlobalTransform.Origin, Vector3.Up);
