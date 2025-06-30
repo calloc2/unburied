@@ -1,9 +1,11 @@
-[gd_scene load_steps=64 format=4 uid="uid://bg7xp6upbget"]
+[gd_scene load_steps=66 format=4 uid="uid://bg7xp6upbget"]
 
 [ext_resource type="Script" uid="uid://2vrtjpf6xndi" path="res://Scripts/Character/CharacterController.cs" id="1_nn08x"]
 [ext_resource type="Script" uid="uid://cuua5dslegx5r" path="res://Scripts/Character/Camera.cs" id="1_rpqav"]
 [ext_resource type="Script" uid="uid://qm5rx16j8xr5" path="res://Scripts/Character/InputHandler.cs" id="2_kyqiw"]
 [ext_resource type="Script" uid="uid://cek7hqfkmgvne" path="res://Scripts/Character/PlayerModel.cs" id="3_5ixxa"]
+[ext_resource type="Texture2D" uid="uid://cvao5s6hibo8b" path="res://Assets/crosshair.png" id="3_ksbbd"]
+[ext_resource type="Script" uid="uid://be8viw45nhn0" path="res://Scripts/Cursor.cs" id="4_glx4g"]
 [ext_resource type="Script" uid="uid://bx1vf0vlv030s" path="res://Scripts/Character/Moves/Idle.cs" id="4_nn08x"]
 [ext_resource type="Script" uid="uid://c8ubq7convfpv" path="res://Scripts/Character/Moves/Walk.cs" id="5_52ee3"]
 [ext_resource type="Script" uid="uid://cq6qxaatuc8re" path="res://Scripts/Character/Moves/Crouch.cs" id="7_bhhdu"]
@@ -17953,6 +17955,13 @@ size = 15.0
 near = 0.01
 far = 1500.0
 script = ExtResource("1_rpqav")
+
+[node name="Cursor" type="Sprite3D" parent="CameraRig/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, -1.04499, -0.0858817, -103.795)
+texture = ExtResource("3_ksbbd")
+script = ExtResource("4_glx4g")
+depth = 150.0
+shouldOnlySetPosition = true
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource("2_kyqiw")

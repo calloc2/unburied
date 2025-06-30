@@ -3,7 +3,6 @@ using Godot;
 public partial class Camera : Camera3D
 {
 	// Proprerties
-	
 	private const float MIN_ZOOM = 5.0f;
 	private const float MAX_ZOOM = 15.0f;
 
