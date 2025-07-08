@@ -115,8 +115,16 @@ public partial class Lobby : Control
     {
         isReady = true;
         ReadyButton.Disabled = true;
+        
+        // Store local player info in NetworkManager
+        string playerName = string.IsNullOrEmpty(NameEdit.Text) ? "Jogador Local" : NameEdit.Text;
+        if (NetworkManager.Instance != null)
+        {
+            NetworkManager.Instance.SetLobbyPlayerInfo(Multiplayer.GetUniqueId(), playerName, ProfessionSelect.Selected, true);
+        }
+        
         UpdatePlayerList();
-        Rpc(nameof(RemoteSetPlayerReady), NameEdit.Text, ProfessionSelect.Selected);
+        Rpc(nameof(RemoteSetPlayerReady), playerName, ProfessionSelect.Selected);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
@@ -125,6 +133,13 @@ public partial class Lobby : Control
         int senderId = Multiplayer.GetRemoteSenderId();
         
         connectedPlayers[senderId] = new PlayerInfo(playerName, professionIdx, true);
+        
+        // Store in NetworkManager for game scene
+        if (NetworkManager.Instance != null)
+        {
+            NetworkManager.Instance.SetLobbyPlayerInfo(senderId, playerName, professionIdx, true);
+        }
+        
         UpdatePlayerList();
         
         if (!countdownStarted)

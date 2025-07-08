@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://banc22khqhm4o"]
+
+[ext_resource type="Script" uid="uid://cou83y5nvjw5a" path="res://Scripts/GameManager.cs" id="1_gl6un"]
+[ext_resource type="PackedScene" uid="uid://diqdw8dcgggwp" path="res://Scenes/Player.tscn" id="1_iukft"]
+[ext_resource type="Script" uid="uid://ch74rt5unwr80" path="res://Scripts/MultiplayerDebugger.cs" id="2_j5yw3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rwhvy"]
+
+[sub_resource type="Sky" id="Sky_8koso"]
+sky_material = SubResource("ProceduralSkyMaterial_rwhvy")
+
+[sub_resource type="Environment" id="Environment_pr2ys"]
+background_mode = 2
+sky = SubResource("Sky_8koso")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[node name="Debug" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(4.28661, 0, 0, 0, 1, 0, 0, 0, 6.65419, -1.34238, -1.08056, -1.76465)
+use_collision = true
+size = Vector3(9.03021, 1, 9.18164)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pr2ys")
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_gl6un")
+PlayerScene = ExtResource("1_iukft")
+
+[node name="MultiplayerDebugger" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_j5yw3")

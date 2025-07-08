@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm1rlb4kgs0c4"]
+
+[ext_resource type="PackedScene" uid="uid://diqdw8dcgggwp" path="res://Scenes/Player.tscn" id="1_rwhvy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rwhvy"]
+
+[sub_resource type="Sky" id="Sky_8koso"]
+sky_material = SubResource("ProceduralSkyMaterial_rwhvy")
+
+[sub_resource type="Environment" id="Environment_pr2ys"]
+background_mode = 2
+sky = SubResource("Sky_8koso")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[node name="Debug" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34238, 0, -1.76465)
+use_collision = true
+size = Vector3(9.03021, 1, 9.18164)
+
+[node name="Player" parent="." instance=ExtResource("1_rwhvy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48982, -4.86887)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pr2ys")
