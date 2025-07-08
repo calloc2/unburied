@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=4 uid="uid://bg7xp6upbget"]
+[gd_scene load_steps=64 format=4 uid="uid://diqdw8dcgggwp"]
 
 [ext_resource type="Script" uid="uid://2vrtjpf6xndi" path="res://Scripts/Character/CharacterController.cs" id="1_nn08x"]
 [ext_resource type="Script" uid="uid://cuua5dslegx5r" path="res://Scripts/Character/Camera.cs" id="1_rpqav"]

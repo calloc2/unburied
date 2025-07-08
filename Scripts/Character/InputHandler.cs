@@ -3,9 +3,24 @@ using System.Linq;
 
 public partial class InputHandler : Node
 {
+    private CharacterController player;
+    
+    public override void _Ready()
+    {
+        player = GetParent<CharacterController>();
+    }
+
     public InputPackage GatherInput()
     {
         InputPackage input = new InputPackage();
+        
+        // Only gather input if this is the local player
+        if (player == null || !player.IsMultiplayerAuthority())
+        {
+            // Return empty input for non-authority players
+            input.Actions.Append("idle");
+            return input;
+        }
 
         /*
         if (Input.IsActionJustPressed("ui_accept"))

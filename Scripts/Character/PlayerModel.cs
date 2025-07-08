@@ -50,4 +50,22 @@ public partial class PlayerModel : Node
         _currentMove = Moves[state];
         _currentMove.OnEnterState();
     }
+    
+    public string GetCurrentMoveName()
+    {
+        foreach (var kvp in Moves)
+        {
+            if (kvp.Value == _currentMove)
+                return kvp.Key;
+        }
+        return "idle";
+    }
+    
+    public void SetCurrentMove(string moveName)
+    {
+        if (Moves.ContainsKey(moveName) && _currentMove != Moves[moveName])
+        {
+            SwitchTo(moveName);
+        }
+    }
 }
