@@ -5,6 +5,7 @@ public partial class CharacterController : CharacterBody3D
 {
 	private InputHandler inputHandler => GetNode<InputHandler>("Input");
 	private PlayerModel model => GetNode<PlayerModel>("Model");
+	private AudioManager audioManager => GetNode<AudioManager>("AudioManager");
 	
 	// Multiplayer synchronized properties
 	[Export] public string PlayerName { get; set; } = "";
@@ -15,14 +16,14 @@ public partial class CharacterController : CharacterBody3D
 	private Vector3 networkVelocity;
 	private Vector3 networkRotation;
 	private string networkCurrentMove = "idle";
-	
+
 	public override void _Ready()
 	{
 		// Set up networking variables
 		networkPosition = Position;
 		networkVelocity = Velocity;
 		networkRotation = Rotation;
-		
+
 		// Update visuals if player info is already set
 		UpdatePlayerVisuals();
 	}

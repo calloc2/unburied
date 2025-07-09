@@ -8,16 +8,16 @@ public partial class NetworkManager : Node
 
     [Export] public int Port = 4321;
     private ENetMultiplayerPeer peer;
-    
+
     // Store player data from lobby to transfer to game
     private Dictionary<int, LobbyPlayerInfo> lobbyPlayers = new Dictionary<int, LobbyPlayerInfo>();
-    
+
     public struct LobbyPlayerInfo
     {
         public string Name;
         public int ProfessionIndex;
         public bool IsReady;
-        
+
         public LobbyPlayerInfo(string name, int professionIndex, bool isReady)
         {
             Name = name;
@@ -34,14 +34,14 @@ public partial class NetworkManager : Node
         Multiplayer.ConnectedToServer += OnConnectedToServer;
         Multiplayer.ConnectionFailed += OnConnectionFailed;
         Multiplayer.ServerDisconnected += OnServerDisconnected;
-        
+
         CheckLaunchArguments();
     }
 
     private void CheckLaunchArguments()
     {
         var args = OS.GetCmdlineArgs();
-        
+
         for (int i = 0; i < args.Length; i++)
         {
             if (args[i] == "--server" || args[i] == "--host")
@@ -101,37 +101,38 @@ public partial class NetworkManager : Node
     }
 
     private void OnPeerConnected(long id) { GD.Print($"Peer {id} connected!"); }
-    private void OnPeerDisconnected(long id) { 
-        GD.Print($"Peer {id} disconnected!"); 
+    private void OnPeerDisconnected(long id)
+    {
+        GD.Print($"Peer {id} disconnected!");
         lobbyPlayers.Remove((int)id);
     }
-    
+
     private void OnConnectedToServer()
     {
         GD.Print("Successfully connected to server!");
     }
-    
+
     private void OnConnectionFailed()
     {
         GD.PrintErr("Failed to connect to server!");
     }
-    
+
     private void OnServerDisconnected()
     {
         GD.Print("Disconnected from server!");
     }
-    
+
     // Methods to manage lobby player data
     public void SetLobbyPlayerInfo(int playerId, string name, int professionIndex, bool isReady)
     {
         lobbyPlayers[playerId] = new LobbyPlayerInfo(name, professionIndex, isReady);
     }
-    
+
     public Dictionary<int, LobbyPlayerInfo> GetLobbyPlayers()
     {
         return new Dictionary<int, LobbyPlayerInfo>(lobbyPlayers);
     }
-    
+
     public void ClearLobbyPlayers()
     {
         lobbyPlayers.Clear();

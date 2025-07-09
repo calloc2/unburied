@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=4 uid="uid://diqdw8dcgggwp"]
+[gd_scene load_steps=66 format=4 uid="uid://diqdw8dcgggwp"]
 
 [ext_resource type="Script" uid="uid://2vrtjpf6xndi" path="res://Scripts/Character/CharacterController.cs" id="1_nn08x"]
 [ext_resource type="Script" uid="uid://cuua5dslegx5r" path="res://Scripts/Character/Camera.cs" id="1_rpqav"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dthcpbs7qnegk" path="res://Scripts/Character/Moves/Sprint.cs" id="8_megsn"]
 [ext_resource type="Script" uid="uid://m5fww0qlmlh0" path="res://Scripts/Character/Moves/CrouchFwd.cs" id="9_megsn"]
 [ext_resource type="Script" uid="uid://b7iuqi5h3ie7d" path="res://Scripts/Character/Moves/Dance.cs" id="10_yoq75"]
+[ext_resource type="PackedScene" uid="uid://jxkowgdb0c6o" path="res://Scenes/AudioManager.tscn" id="11_ksbbd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q78c6"]
 resource_name = "M_Main"
@@ -17548,6 +17549,9 @@ func _physics_process(_delta: float) -> void:
 	text = \"FPS: \" + str(Engine.get_frames_per_second())
 "
 
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_glx4g"]
+mix_rate = 48000.0
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_nn08x")
 
@@ -17985,3 +17989,12 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "FPS:"
 script = SubResource("GDScript_yoq75")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58452, 0)
+stream = SubResource("AudioStreamGenerator_glx4g")
+autoplay = true
+max_distance = 135.0
+
+[node name="AudioManager" parent="." instance=ExtResource("11_ksbbd")]
+AudioOutputPath = NodePath("../AudioStreamPlayer3D")

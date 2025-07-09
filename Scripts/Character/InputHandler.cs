@@ -52,7 +52,7 @@ public partial class InputHandler : Node
 
         if (input.Actions.Count == 0)
                 input.Actions.Append("idle");
-
+        
         return input;
     }
 }

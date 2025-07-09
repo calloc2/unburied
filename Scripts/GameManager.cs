@@ -26,7 +26,7 @@ public partial class GameManager : Node
     {
         Multiplayer.PeerConnected += OnPeerConnected;
         Multiplayer.PeerDisconnected += OnPeerDisconnected;
-        
+
         // Get player data from NetworkManager
         if (NetworkManager.Instance != null)
         {
@@ -36,7 +36,7 @@ public partial class GameManager : Node
                 playersData[kvp.Key] = new PlayerData(kvp.Value.Name, kvp.Value.ProfessionIndex, GetSpawnPosition());
             }
         }
-        
+
         // Always spawn local player
         int localId = Multiplayer.GetUniqueId();
         if (!playersData.ContainsKey(localId))
@@ -52,7 +52,7 @@ public partial class GameManager : Node
             }
             playersData[localId] = new PlayerData(localName, 0, GetSpawnPosition());
         }
-        
+
         // Spawn all players
         CallDeferred(nameof(SpawnAllPlayers));
     }
@@ -105,7 +105,10 @@ public partial class GameManager : Node
         // Add to scene
         GetTree().CurrentScene.AddChild(playerInstance);
         spawnedPlayers[playerId] = playerInstance;
-        
+        var audioManager = playerInstance.GetNode<AudioManager>("AudioManager");
+
+        audioManager.SetupAudio(playerId);
+
         GD.Print($"Spawned player {playerId} ({playerData.Name}) at {playerData.SpawnPosition}");
     }
 
